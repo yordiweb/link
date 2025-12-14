@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="am">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Service Categories — Index</title>
+    <style>
+      /* ===== reset & base ===== */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background: #fff;
+        color: #122;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* ===== header curved hero ===== */
+      .hero {
+        position: relative;
+        height: 240px;
+        background: #0f1a1f; /* dark overlay color */
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom-left-radius: 50% 18%;
+        border-bottom-right-radius: 50% 18%;
+      }
+      .hero img.bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.18; /* dim image like sample */
+        pointer-events: none;
+      }
+      .search-wrap {
+        position: relative;
+        z-index: 2;
+        width: 70%;
+        max-width: 760px;
+        margin-top: 40px;
+      }
+      .search {
+        display: block;
+        width: 100%;
+        padding: 14px 22px;
+        border-radius: 40px;
+        border: 0;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        outline: none;
+        background: #fff;
+        color: #122;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      /* ===== title ===== */
+      .title {
+        text-align: center;
+        margin: 46px 14px 12px;
+        font-size: 34px;
+        letter-spacing: 0.5px;
+        color: #1f3133;
+      }
+
+      /* ===== categories grid ===== */
+      .categories {
+        width: 92%;
+        max-width: 1100px;
+        margin: 20px auto 28px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 22px;
+        align-items: start;
+      }
+      .card {
+        background: transparent;
+        border-radius: 12px;
+        text-align: left;
+        padding: 6px 6px 14px;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          opacity 0.3s ease;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+      }
+      .card.hidden {
+        display: none;
+      }
+      .card.filtered-out {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      .thumb {
+        width: 100%;
+        height: 120px;
+        border-radius: 12px;
+        object-fit: cover;
+        display: block;
+        background: #eee;
+        box-shadow: 0 6px 18px rgba(30, 40, 40, 0.06);
+      }
+      .label {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #122;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      /* ===== special: transport + other side-by-side emphasis ===== */
+      .transport-row {
+        display: flex;
+        gap: 18px;
+        align-items: stretch;
+      }
+      .transport-row .card {
+        flex: 1;
+      }
+      /* make transport slightly larger visual by giving min-height on thumb */
+      .card.transport .thumb {
+        height: 132px;
+      }
+
+      /* ===== bottom nav ===== */
+      .bottom {
+        width: 100%;
+        max-width: 900px;
+        margin: 46px auto 34px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px 12px;
+      }
+      .nav-item {
+        text-align: center;
+        font-size: 14px;
+        color: #1f3133;
+      }
+      .nav-item img {
+        width: 44px;
+        height: 44px;
+        display: block;
+        margin: 0 auto 6px;
+      }
+
+      /* ===== responsive tweaks ===== */
+      @media (max-width: 720px) {
+        .hero {
+          height: 200px;
+        }
+        .search-wrap {
+          width: 86%;
+        }
+        .title {
+          font-size: 26px;
+          margin-top: 28px;
+        }
+        .thumb {
+          height: 100px;
+        }
+        .transport-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <div class="hero">
+      <!-- replace src with your header image (large) -->
+      <img
+        class="bg"
+        src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1600&auto=format&fit=crop&sat=-20"
+        alt=""
+      />
+      <div class="search-wrap">
+        <input
+          class="search"
+          id="searchInput"
+          type="text"
+          placeholder="Find what you need"
+          aria-label="search"
+        />
+      </div>
+    </div>
+
+    <h2 class="title">Choose your Category</h2>
+
+    <!-- GRID -->
+    <div class="categories" id="categoriesGrid">
+      <!-- row of normal boxes (3 across on wide screens) -->
+      <div class="card" data-category="Advertising & Marketing Service">
+        <img
+          class="thumb"
+          src="../assets/images/fba500c6e99adee23edf4e5e7ad31722.jpg"
+          alt="Advertising"
+        />
+        <div class="label">Advertising & Marketing Service</div>
+      </div>
+
+      <div class="card" data-category="Information Technology (IT)">
+        <img
+          class="thumb"
+          src="../assets/images/450efaa8fa2674bae9ac0dc2a6636e21.jpg"
+          alt="IT"
+        />
+        <div class="label">Information Technology (IT)</div>
+      </div>
+
+      <div class="card" data-category="Financial & Accounting Service">
+        <img
+          class="thumb"
+          src="../assets/images/76a3edfbf462aa2081912a3af59293b6.jpg"
+          alt="Finance"
+        />
+        <div class="label">Financial & Accounting Service</div>
+      </div>
+
+      <div class="card" data-category="Logistics Transport Service">
+        <img
+          class="thumb"
+          src="../assets/images/5eef391dedda53935600843666d11063.jpg"
+          alt="Logistics"
+        />
+        <div class="label">Logistics Transport Service</div>
+      </div>
+
+      <div class="card" data-category="Education & Training">
+        <img
+          class="thumb"
+          src="../assets/images/6811456da920cd57067c96c3a8ed7ddc.jpg"
+          alt="Education"
+        />
+        <div class="label">Education & Training</div>
+      </div>
+
+      <div class="card" data-category="Health & Wellness Service">
+        <img
+          class="thumb"
+          src="../assets/images/0d1a51de43ef9d69cc118a9c05982f04.jpg"
+          alt="Health"
+        />
+        <div class="label">Health & Wellness Service</div>
+      </div>
+
+      <div class="card" data-category="Construction">
+        <img
+          class="thumb"
+          src="../assets/images/617b71294a99df75146e1e4a5710538f.jpg"
+          alt="Construction"
+        />
+        <div class="label">Construction</div>
+      </div>
+
+      <div class="card" data-category="Tourism & Hospitality">
+        <img
+          class="thumb"
+          src="../assets/images/954ffe6db34a5bef80a864685adcb98a.jpg"
+          alt="Tourism"
+        />
+        <div class="label">Tourism & Hospitality</div>
+      </div>
+
+      <div class="card" data-category="Creative & Media Service">
+        <img
+          class="thumb"
+          src="../assets/images/d5620cd18f1ae7628c2de5ae91158946.jpg"
+          alt="Creative"
+        />
+        <div class="label">Creative & Media Service</div>
+      </div>
+
+      <div class="card" data-category="Fashion & Lifestyle">
+        <img
+          class="thumb"
+          src="../assets/images/80a6d1a065770013330ee989883f4006.jpg"
+          alt="Fashion"
+        />
+        <div class="label">Fashion & Lifestyle</div>
+      </div>
+
+      <div class="card" data-category="Food & Beverage Service">
+        <img
+          class="thumb"
+          src="../assets/images/833f0484d0b473dd67cd9f28211fb437.jpg"
+          alt="Food"
+        />
+        <div class="label">Food & Beverage Service</div>
+      </div>
+
+      <div class="card" data-category="Housing & Home Service">
+        <img
+          class="thumb"
+          src="../assets/images/50a9a84b32de4d15aadcbd8c718f4fb9.jpg"
+          alt="Housing"
+        />
+        <div class="label">Housing & Home Service</div>
+      </div>
+
+      <div class="card" data-category="Transport and Automation">
+        <img
+          class="thumb"
+          src="../assets/images/8fe649232ebe09a313fab20004343ed1.jpg"
+          alt="Transport and Automation"
+        />
+        <div class="label">Transport and Automation</div>
+      </div>
+
+      <div class="card" data-category="Other">
+        <img
+          class="thumb"
+          src="../assets/images/86bb4d201c4c2a8f8f5d5bb08a638727 (1).jpg"
+          alt="Other"
+        />
+        <div class="label">other</div>
+      </div>
+    </div>
+
+    <!-- bottom nav -->
+    <div class="bottom" role="navigation" aria-label="bottom navigation">
+      <div
+        class="nav-item active"
+        onclick="window.location.href='front page.html'"
+        style="cursor: pointer; background: #f0fdf4"
+      >
+        <img src="../assets/images/home.jpg" alt="home icon" />
+        <div style="color: #059669; font-weight: 600">Home</div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='create-company.html'"
+        style="cursor: pointer"
+      >
+        <img src="../assets/images/add.jpg" alt="post icon" />
+        <div>Post Service</div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='companies-list.html'"
+        style="cursor: pointer"
+      >
+        <img src="../assets/images/profile.jpg" alt="profile icon" />
+        <div>Profile</div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='help.html'"
+        style="cursor: pointer"
+      >
+        <img src="../assets/images/help.jpg" alt="help icon" />
+        <div>Help</div>
+      </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+
+    <script>
+      // Check if user is logged in and update nav accordingly
+      window.addEventListener("DOMContentLoaded", async () => {
+        const isAuth = await checkAuth();
+        const navItems = document.querySelectorAll(".nav-item");
+
+        // Help button stays as Help, no need to change based on auth
+
+        // Search functionality
+        const searchInput = document.getElementById("searchInput");
+        const categoryCards = document.querySelectorAll(".card");
+
+        // Filter categories based on search input
+        searchInput.addEventListener("input", (e) => {
+          const searchTerm = e.target.value.toLowerCase().trim();
+
+          categoryCards.forEach((card) => {
+            const categoryName =
+              card.getAttribute("data-category") ||
+              card.querySelector(".label").textContent.toLowerCase();
+            const labelText = card
+              .querySelector(".label")
+              .textContent.toLowerCase();
+
+            // Check if search term matches category name or label
+            if (
+              searchTerm === "" ||
+              categoryName.toLowerCase().includes(searchTerm) ||
+              labelText.includes(searchTerm)
+            ) {
+              card.classList.remove("hidden");
+            } else {
+              card.classList.add("hidden");
+            }
+          });
+        });
+
+        // Add click handlers to category cards
+        categoryCards.forEach((card) => {
+          card.addEventListener("click", () => {
+            const category =
+              card.getAttribute("data-category") ||
+              card.querySelector(".label").textContent;
+
+            // Navigate to companies list filtered by category
+            if (isAuth) {
+              // If logged in, show companies for this category
+              window.location.href = `companies-list.html?category=${encodeURIComponent(
+                category
+              )}`;
+            } else {
+              // If not logged in, go to login first
+              window.location.href = "form page.html";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

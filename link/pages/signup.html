@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Create Account — Sign Up</title>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        width: 380px;
+      }
+
+      h1 {
+        font-size: 40px;
+        margin-bottom: 5px;
+        font-weight: 800;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 25px;
+        color: #6b7280;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 18px;
+        font-size: 15px;
+      }
+
+      .forgot {
+        text-align: right;
+        margin-bottom: 15px;
+      }
+
+      .forgot a {
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 16px;
+        background: #0f1724;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn-google {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        margin-top: 15px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .signup {
+        text-align: center;
+        margin-top: 25px;
+        color: #6b7280;
+      }
+
+      .signup a {
+        font-weight: 700;
+        color: black;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Create Account</h1>
+      <p>Sign up to get started! Please enter your details.</p>
+
+      <label>Email</label>
+      <input type="email" id="email" placeholder="Enter your email" required />
+
+      <label>Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Create a password"
+        required
+      />
+
+      <label>Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm your password"
+        required
+      />
+
+      <button class="btn-login" id="signupBtn">Sign Up</button>
+
+      <button class="btn-google" id="googleBtn">
+        <img
+          src="../assets/images/4520ddfc56208707045c56232e946f7f.jpg"
+          width="20"
+        />
+        Sign up with Google
+      </button>
+
+      <div class="signup">
+        Already have an account? <a href="form page.html">Log in</a>
+      </div>
+    </div>
+
+    <!-- Load config and auth utilities -->
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+
+    <script>
+      // Check if already logged in
+      window.addEventListener("DOMContentLoaded", async () => {
+        const isAuth = await checkAuth();
+        if (isAuth) {
+          window.location.href = "front page.html";
+        }
+      });
+
+      // Signup handler
+      document
+        .getElementById("signupBtn")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+          const signupBtn = document.getElementById("signupBtn");
+
+          if (!email || !password || !confirmPassword) {
+            showError("Please fill in all fields");
+            return;
+          }
+
+          if (password !== confirmPassword) {
+            showError("Passwords do not match");
+            return;
+          }
+
+          if (password.length < 6) {
+            showError("Password must be at least 6 characters");
+            return;
+          }
+
+          setLoading(signupBtn, true);
+
+          const result = await signUp(email, password);
+
+          if (result.success) {
+            showSuccess(
+              "Account created! Please check your email to verify your account."
+            );
+            setTimeout(() => {
+              window.location.href = "form page.html";
+            }, 2000);
+          } else {
+            showError(result.error || "Signup failed. Please try again.");
+            setLoading(signupBtn, false);
+          }
+        });
+
+      // Google signup handler (optional)
+      document
+        .getElementById("googleBtn")
+        .addEventListener("click", async () => {
+          showError(
+            "Google signup requires OAuth configuration in Supabase. Please use email/password for now."
+          );
+        });
+    </script>
+  </body>
+</html>

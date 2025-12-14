@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Advertising and Marketing Service</title>
+
+<style>
+  :root{
+    /* እነዚህን እርምጃዎች እንደምትፈልጉ ቀይር */
+    --header-height: 180px;
+    --card-width: 84%;         /* card ስፋት (ሙሉ ስርናሽ ከሆነ ታንኳን ቀንሳ) */
+    --card-radius: 12px;       /* corner radius */
+    --card-shift: 6%;          /* ወደ ጎን ለማሳጠር (positive = right shift, negative = left shift) */
+    --card-padding: 15px;
+    --page-bg: #fff;
+  }
+
+  *{box-sizing: border-box}
+  body{
+    margin:0;
+    font-family: "Arial", sans-serif;
+    background: var(--page-bg);
+    color:#222;
+  }
+
+  /* =========== TOP CURVED HEADER WITH GRADIENT & TITLE =========== */
+  .header{
+    height: var(--header-height);
+    position: relative;
+    /* gradient ከ blue ወደ black */
+    background: linear-gradient(135deg, #012f74 0%, #06203a 60%, #000000 100%);
+    border-bottom-left-radius: 55% 20%;
+    border-bottom-right-radius: 55% 20%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-top: 18px;
+    color: white;
+  }
+
+  .back-btn{
+    position:absolute;
+    left:16px;
+    top:16px;
+    color: white;
+    text-decoration:none;
+    font-weight:700;
+    font-size:16px;
+    opacity:0.95;
+  }
+
+  .header .title{
+    text-align:center;
+    font-size:52px;
+    font-weight:800;
+    letter-spacing:0.3px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+    padding-top: 12px;
+  }
+
+  /* ከ title ታች ፍቺ ለተጨማሪ ገጽታ (optional) */
+  .header .subtitle{
+    display:block;
+    font-size:13px;
+    opacity:0.9;
+    margin-top:6px;
+    font-weight:600;
+  }
+
+  /* =========== SERVICE LIST =========== */
+  .list-wrap{
+    margin-top: 18px;
+    padding: 8px 0 40px 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .service-btn{
+    width: var(--card-width);
+    max-width: 760px;
+    margin: 10px 0;
+    background:#fff;
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    border: 1px solid #e0e0e0;
+    font-size:20px;
+    font-weight:800;
+    text-align:center;
+    box-shadow: 0 4px 10px rgba(12,12,12,0.06);
+    /* ወደ ቀኝ ለማሳጠር */
+    transform: translateX(var(--card-shift));
+    transition: transform 220ms ease, box-shadow 220ms ease;
+    cursor: pointer;
+  }
+
+  .service-btn:active{
+    transform: translateX(calc(var(--card-shift) + 2px)) scale(0.998);
+    box-shadow: 0 2px 6px rgba(12,12,12,0.06);
+  }
+
+  /* ከፍተኛ የስልክ መዋቅር (responsive tweaks) */
+  @media (max-width:420px){
+    :root{
+      --card-width: 90%;
+      --card-shift: 4%;
+      --header-height: 160px;
+      --card-padding: 12px;
+    }
+    .header .title{ font-size:20px; }
+    .service-btn{ font-size:18px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <a href="#" class="back-btn">← Back</a>
+    <div>
+      <div class="title">Tourism & Hospitality</div>
+
+    </div>
+  </div>
+
+  <div class="list-wrap">
+    <div class="service-btn">Travel Agencies & Tour operators</div>
+    <div class="service-btn">Car Rental & Chauffeur Services</div>
+    <div class="service-btn">Airline Ticketing Services</div>
+    <div class="service-btn">Guest Houses</div>
+    <div class="service-btn">Other</div>
+</body>
+</body>
+</html>

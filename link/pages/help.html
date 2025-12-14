@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Help & Support</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #fff;
+        padding-bottom: 100px;
+      }
+
+      /* Hero Header */
+      .hero {
+        position: relative;
+        height: 200px;
+        background: #0f1a1f;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom-left-radius: 50% 18%;
+        border-bottom-right-radius: 50% 18%;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(59, 130, 246, 0.1) 0%,
+          rgba(147, 197, 253, 0.1) 50%,
+          rgba(59, 130, 246, 0.1) 100%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+      }
+
+      .hero-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.3;
+      }
+
+      .header {
+        background: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: -20px;
+        position: relative;
+        z-index: 1;
+        border-radius: 16px 16px 0 0;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 10px;
+      }
+
+      .logo-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .app-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1c2f2f;
+      }
+
+      .app-name-amharic {
+        font-size: 14px;
+        color: #6b7280;
+        margin-top: 5px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 32px;
+        font-weight: 800;
+        color: #1c2f2f;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .help-section {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .help-section h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1c2f2f;
+        margin-bottom: 15px;
+      }
+
+      .help-section p {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      .help-section ul {
+        margin-left: 20px;
+        margin-top: 10px;
+      }
+
+      .help-section li {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.8;
+        margin-bottom: 8px;
+      }
+
+      .contact-box {
+        background: #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .contact-box h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1c2f2f;
+        margin-bottom: 15px;
+      }
+
+      .contact-info {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.8;
+      }
+
+      .contact-info a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+
+      .contact-info a:hover {
+        text-decoration: underline;
+      }
+
+      /* Bottom Navigation */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px 15px;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+
+      .nav-item:hover {
+        background: #f3f4f6;
+      }
+
+      .nav-item img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .nav-item div {
+        font-size: 12px;
+        color: #374151;
+        font-weight: 500;
+      }
+
+      .nav-item.active div {
+        color: #059669;
+        font-weight: 600;
+      }
+
+      .nav-item.active {
+        background: #f0fdf4;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Hero Header -->
+    <div class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Help & Support</h1>
+      </div>
+    </div>
+
+    <!-- Logo Header -->
+    <div class="header">
+      <div class="logo-container">
+        <img
+          src="../assets/images/fba500c6e99adee23edf4e5e7ad31722.jpg"
+          alt="Logo"
+          class="logo-img"
+        />
+        <div>
+          <div class="app-name">Service Platform</div>
+          <div class="app-name-amharic">አገልግሎት መድረክ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="help-section">
+        <h2>Getting Started</h2>
+        <p>Welcome to our service platform! Here's how to get started:</p>
+        <ul>
+          <li>Create an account or log in to your existing account</li>
+          <li>Browse service categories to find what you need</li>
+          <li>Create a company profile to offer your services</li>
+          <li>View and manage your companies from your profile</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h2>Creating a Company Profile</h2>
+        <p>To create a company profile:</p>
+        <ul>
+          <li>Click on "Post Service" in the bottom navigation</li>
+          <li>Fill in all required fields (marked with *)</li>
+          <li>Upload your company logo (optional)</li>
+          <li>Provide contact information</li>
+          <li>Select your service category</li>
+          <li>Read and accept the consent terms</li>
+          <li>Click "Submit" to create your profile</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h2>Managing Your Companies</h2>
+        <p>You can view and manage all your companies:</p>
+        <ul>
+          <li>Go to "Profile" in the bottom navigation</li>
+          <li>View all your post in a list</li>
+          <li>Click on any company to view full details</li>
+          <li>Filter companies by category</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h2>Searching for Services</h2>
+        <p>To find services:</p>
+        <ul>
+          <li>Use the search bar on the home page</li>
+          <li>Browse categories by clicking on category cards</li>
+          <li>View company details by clicking on a company</li>
+          <li>Contact companies using the Contact Options</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h2>Account & Security</h2>
+        <p>For account-related questions:</p>
+        <ul>
+          <li>Make sure you're logged in to access all features</li>
+          <li>You can only view and edit your own companies</li>
+          <li>
+            If you forget your password, use the "Forgot password" link on the
+            login page
+          </li>
+          <li>Log out when using shared devices</li>
+        </ul>
+      </div>
+
+      <div class="help-section">
+        <h2>Common Issues</h2>
+        <h3 style="font-size: 16px; margin-top: 15px; margin-bottom: 10px">
+          Can't create a company?
+        </h3>
+        <ul>
+          <li>Make sure all required fields are filled</li>
+          <li>Check that you're logged in</li>
+          <li>Verify your internet connection</li>
+        </ul>
+
+        <h3 style="font-size: 16px; margin-top: 15px; margin-bottom: 10px">
+          Can't see my companies?
+        </h3>
+        <ul>
+          <li>Make sure you're logged in</li>
+          <li>Check if you have created any companies</li>
+          <li>Try refreshing the page</li>
+        </ul>
+      </div>
+
+      <div class="contact-box">
+        <h3>Need More Help?</h3>
+        <div class="contact-info">
+          <p>
+            If you need additional assistance, please contact our support team:
+          </p>
+          <p style="margin-top: 10px">
+            Email: <a href="mailto:support@example.com">support@example.com</a>
+          </p>
+          <p>Phone: <a href="tel:+251900000000">+251 900 000 000</a></p>
+          <p style="margin-top: 15px; font-size: 14px; color: #6b7280">
+            We're here to help you Monday through Friday, 9 AM to 5 PM.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="window.location.href='front page.html'">
+        <img src="../assets/images/home.jpg" alt="home icon" />
+        <div>Home</div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='create-company.html'"
+      >
+        <img src="../assets/images/add.jpg" alt="post service icon" />
+        <div>Post Service</div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='companies-list.html'"
+      >
+        <img src="../assets/images/profile.jpg" alt="profile icon" />
+        <div>Profile</div>
+      </div>
+      <div class="nav-item active" onclick="window.location.href='help.html'">
+        <img src="../assets/images/help.jpg" alt="help icon" />
+        <div>Help</div>
+      </div>
+    </div>
+  </body>
+</html>

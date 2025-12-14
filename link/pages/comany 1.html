@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="am">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Company Profile Card</title>
+    <style>
+      /* ---- base ---- */
+      *{box-sizing:border-box}
+      body{
+        margin:0;
+        font-family: Georgia, "Times New Roman", serif;
+        background:#ffffff;
+        color:#10282b;
+        padding-top:70px;
+      }
+
+      .nav-bar{
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        background:white;
+        padding:15px 20px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        z-index:1000;
+        display:flex;
+        gap:20px;
+        align-items:center;
+        flex-wrap:wrap;
+      }
+
+      .nav-bar a{
+        color:#10282b;
+        text-decoration:none;
+        font-weight:600;
+        padding:8px 12px;
+        border-radius:8px;
+        transition:background 0.2s;
+      }
+
+      .nav-bar a:hover{
+        background:#f3f3f3;
+      }
+
+      .page{
+        display:flex;
+        justify-content:center;
+        padding:26px;
+
+      .logo-wrap{
+        text-align:center;
+        margin-top:-36px; /* pull logo above card area look */
+      }
+      .logo {
+        width:110px;
+        height:110px;
+        border-radius:22px;
+        background:#eaf6ff;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+        box-shadow: 0 10px 30px rgba(10,20,25,0.12);
+        border:6px solid #fff;
+      }
+      .logo img{ width:100%; height:100%; object-fit:contain; display:block; }
+
+      .company-title{
+        margin-top:8px;
+        font-size:20px;
+        font-weight:700;
+        color:#0c2430;
+        letter-spacing:0.2px;
+        text-align:center;
+      }
+
+      /* ---- rounded content panel ---- */
+      .panel{
+        background:#e9e9e9;
+        padding:10px;
+        border-radius:20px;
+        border:1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 12px 30px rgba(10,20,25,0.04);
+      }
+
+      h3.section{
+        margin:0 0 10px 0;
+        font-size:26px;
+        color:#273333;
+        font-weight:600;
+      }
+
+      .field{
+        background:#ffffff;
+        border-radius:14px;
+        padding:14px 16px;
+        border:1px solid rgba(30,40,40,0.06);
+        margin-bottom:14px;
+        font-size:15px;
+        color:#1b2930;
+        line-height:1.4;
+      }
+
+      /* company profile/sample inputs (link style) */
+      .link-field{
+        padding:14px 20px;
+        border-radius:14px;
+        background:#fff;
+        border:1px solid rgba(30,40,40,0.06);
+        font-size:20px;
+        color:#0e2b2f;
+        margin-bottom:16px;
+      }
+
+      /* delivery select look */
+      .delivery{
+        padding:18px 20px;
+        border-radius:14px;
+        background:#fff;
+        border:1px solid rgba(30,40,40,0.06);
+        font-size:20px;
+        color:#0e2b2f;
+        margin-bottom:16px;
+      }
+
+      /* contact grid */
+      .contact-grid{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:14px;
+        margin-top:6px;
+      }
+      .contact-item{
+        background:#fff;
+        border-radius:14px;
+        padding:12px 16px;
+        border:1px solid rgba(30,40,40,0.06);
+        font-size:18px;
+        color:#0c2b2f;
+        text-align:center;
+      }
+
+      /* email and map row (full width second row) */
+      .contact-extra{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:14px;
+        margin-top:12px;
+      }
+      .contact-extra .contact-item{ font-size:16px; text-align:left; padding:12px 14px; word-break:break-all; }
+
+      /* big Message button */
+      .msg-wrap{ text-align:center; margin-top:20px; }
+      .msg-btn{
+        display:inline-block;
+        padding:12px 70px;
+        border-radius:18px;
+        background:#ffffff;
+        border:1px solid rgba(0,0,0,0.08);
+        font-size:34px;
+        font-weight:600;
+        color:#142c2f;
+        box-shadow: 0 8px 22px rgba(10,20,25,0.06);
+        cursor:pointer;
+      }
+
+      /* small responsive */
+      @media (max-width:640px){
+        .hero{height:140px}
+        .logo{width:110px;height:110px}
+        .company-title{font-size:18px}
+        .link-field,.delivery{font-size:18px;padding:12px}
+        .contact-grid{grid-template-columns:1fr 1fr}
+        .msg-btn{font-size:26px;padding:10px 36px}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav-bar">
+      <a href="front page.html">Home</a>
+      <a href="form page.html">Login</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="create-company.html">Create Company</a>
+      <a href="companies-list.html">My Companies</a>
+    </div>
+
+    <div class="page">
+      <!-- hero & logo -->
+      <div class="hero" aria-hidden="true"></div>
+
+      <div class="logo-wrap">
+        <!-- replace src with real logo -->
+        <div class="logo">
+          <img
+            src="https://via.placeholder.com/400x400.png?text=Logo"
+            alt="company logo"
+          />
+        </div>
+        <div class="company-title">RETOUCH ADVERTISING TRADING P.L.C</div>
+      </div>
+
+      <!-- content panel -->
+      <div class="panel" role="region" aria-label="company info">
+        <h2 class="section">About Our Service</h2>
+        <div class="field" id="about">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
+          suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan
+          lacus vel facilisis.
+        </div>
+
+        <h2 class="section">Company Profile</h2>
+        <div class="link-field">https://t.me/c/1394837730/150</div>
+
+        <h2 class="section">Sample Work</h2>
+        <div class="link-field">https://t.me/c/1394837730/150</div>
+
+        <h2 class="section">Delivery location</h2>
+        <div class="delivery">On_site</div>
+
+        <h2 class="section" style="margin-top: 8px">Contact</h2>
+
+        <div class="contact-grid" aria-hidden="false">
+          <div class="contact-item">+2519 989 800 099</div>
+          <div class="contact-item">+2519 989 800 099</div>
+        </div>
+
+        <div class="contact-extra">
+          <div class="contact-item">retrrty@gmail.com</div>
+          <div class="contact-item">https://t.me/c/Google map link150</div>
+        </div>
+
+        <div class="msg-wrap">
+          <button class="msg-btn" id="msgBtn">Message</button>
+        </div>
+      </div>
+      <!-- panel -->
+    </div>
+
+    <script>
+      // simple demo: message button shows about text in alert (replace with real action)
+      document.getElementById("msgBtn").addEventListener("click", function () {
+        const about = document.getElementById("about").innerText.trim();
+        alert(
+          "Message pressed\n\nAbout: " +
+            (about.length > 150 ? about.slice(0, 150) + "..." : about)
+        );
+      });
+    </script>
+  </body>
+</html>

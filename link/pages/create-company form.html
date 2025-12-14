@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fill in your information</title>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f3f3f3;
+        padding: 20px;
+        padding-bottom: 100px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 25px;
+        font-weight: 800;
+        color: #1c2f2f;
+        text-align: center;
+      }
+
+      .section {
+        background: #2c3e50;
+        color: white;
+        padding: 15px 20px;
+        margin: 25px 0 15px 0;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #1c2f2f;
+        font-size: 14px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 18px;
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+        background: #f9f9f9;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .address-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+      }
+
+      .phone-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .contact-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .logo-upload {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+      }
+
+      .logo-preview {
+        width: 100px;
+        height: 100px;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f9f9f9;
+        color: #999;
+        font-size: 12px;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .logo-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+
+      .file-input-wrapper {
+        flex: 1;
+      }
+
+      .file-input-label {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #0f1724;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .file-input-label:hover {
+        background: #1a2332;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      .optional-badge {
+        display: inline-block;
+        background: #e5e7eb;
+        color: #6b7280;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        margin-left: 10px;
+        font-weight: normal;
+      }
+
+      .consent-box {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 25px 0;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 20px;
+        margin-top: 15px;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .radio-option input[type="radio"] {
+        width: auto;
+        margin: 0;
+      }
+
+      .radio-option label {
+        margin: 0;
+        font-weight: normal;
+        color: white;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: #2c3e50;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      .btn-submit:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        color: #0f1724;
+      }
+
+      @media (max-width: 640px) {
+        .address-row,
+        .phone-row,
+        .contact-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <a href="companies-list.html" class="back-link">← Back to Companies</a>
+
+      <h1 id="pageTitle">Fill in your information</h1>
+
+      <form id="companyForm">
+        <!-- Company Information Section -->
+        <div class="section">Company Information</div>
+
+        <label>Company Name *</label>
+        <input
+          type="text"
+          id="companyName"
+          placeholder="Enter company name"
+          required
+        />
+
+        <label>Company Logo/image</label>
+        <div class="logo-upload">
+          <div class="logo-preview" id="logoPreview">
+            <div>jpeg/png</div>
+          </div>
+          <div class="file-input-wrapper">
+            <label for="logoFile" class="file-input-label">Choose File</label>
+            <input type="file" id="logoFile" accept="image/jpeg,image/png" />
+          </div>
+        </div>
+
+        <label>Address</label>
+        <div class="address-row">
+          <input type="text" id="city" placeholder="City" />
+          <input type="text" id="subCity" placeholder="SubCity" />
+          <input type="text" id="worda" placeholder="Worda" />
+        </div>
+
+        <!-- Company Service Description Section -->
+        <div class="section">Company Service Description</div>
+
+        <label>Description About Company Service *</label>
+        <textarea
+          id="description"
+          placeholder="Describe your company services in detail..."
+          required
+        ></textarea>
+
+        <!-- Company Profile and Services Section -->
+        <div class="section">Company Profile and Services</div>
+
+        <label>
+          Company Profile
+          <span class="optional-badge">(optional)</span>
+        </label>
+        <input type="url" id="companyProfile" placeholder="link" />
+
+<!-- ======= Category & Service Selects ======= -->
+        <label>Select Service Service Catagory</label>
+<select id="categorySelect">
+  <option value=""> Select service category </option>
+  <option>Advertising & Marketing services</option>
+  <option>Information Technology (IT)</option>
+  <option>Financial & accounting service</option>
+  <option>Logistics, Transport & Supply chain</option>
+  <option>Education and Training</option>
+  <option>Health & Wellness Service</option>
+  <option>Construction</option>
+  <option>Tourism & Hospitality</option>
+  <option>Creative & Media Service</option>
+  <option>Fashion & Lifestyle</option>
+  <option>Food & Beverage Service</option>
+  <option>Housing and Home service</option>
+  <option>Transport & Automotive</option>
+    <option>Other</option>
+</select>
+
+<select id="serviceSelect">
+  <option value="">Choose Service </option>
+</select>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+const servicesByCategory = {
+  "Advertising & Marketing services": [
+    "Advertising and Printing Company",
+    "Digital Marketing Agency",
+    "Video Production & Commercial Filming Company",
+    "Branding & Identity Design Studio"
+  ],
+
+  "Information Technology (IT)": [
+    "IT Support & Maintenance Service",
+    "Software as a Service (SaaS) Providers",
+    "Data Analysis & Business Intelligence Service",
+    "Cybersecurity & Network Protection Service",
+    "Cloud IT consulting & Systems IntegrationHosting & Backup Providers",
+    "IT consulting & Systems Integration",
+  ],
+
+  "Financial & accounting service": [
+    "Accounting & Bookkeeping Firms",
+    "Tax consulting & Filing",
+    "Auditing Firms",
+    "Payroll Management Service",
+    "Microfinance & Investment consulting",
+    "IT consulting & Systems Integration"
+  ],
+
+  "Logistics, Transport & Supply chain": [
+    "Freight forwarding Companies",
+    "Courier & Delivery Companies",
+    "Cross-Country Transportation",
+    "Private Transportation Service",
+  ],
+
+  "Education and Training": [
+    "Private Schools & Academies",
+    "Vocational & Technicaal Training Center",
+    "Language Training Institutes",
+    "E-Learning & online Course Platforms",
+    "Digital Learning Institutes",
+    "Study Abroa & scholarship consulting",
+    "Computer & ICT Training Center",
+    "Tutoring & Private Coaching Service",
+    "Youth & Children skill development center",
+    "Driving Training School",
+  ],
+
+  "Health & Wellness Service": [
+    "Hospitals & Medical Clinics",
+    "Diagnostic Laboratories Center",
+    "Mental Health & Counseling Center",
+    "Traditional Medicine",
+    "Home care & Elderly support Service",
+    "Spa & Beauty Therapy center",
+    "Fitness centers & Gym Clubs"
+  ],
+
+  "Construction": [
+    "Construction",
+    "Architecture & Interior Design Firms",
+    "Construction Material Suppliers",
+    "Electrical & Plumbing Contractors",
+    "Renovation & Maintenance Contractors",
+  ],
+
+  "Tourism & Hospitality": [
+    "Travel Agencies & Tour operators",
+    "Car Rental & Chauffeur Services",
+    "Airline Ticketing Services",
+    "Guest Houses",
+
+  ],
+
+  "Creative & Media Service": [
+    "Photography & Videography Service",
+    "Music Production & Sound Engineering",
+    "Film Production & Editing Companies",
+    "Publishing Book Printing",
+  ],
+
+  "Fashion & Lifestyle": [
+    "Clothing & Apparel Design Studios",
+    "Makeup & Beauty Parlors",
+    "Spa & Beauty Therapy Center",
+    "Fitness Center & Gym Clubs",
+    "Fashion Photography Studios",
+  ],
+
+  "Food & Beverage Service": [
+    "Catering & Event Food services",
+    "Bakery & Pastry",
+    "Food Delivery",
+    "Beverage Production",
+    "Food Delivery",
+  ],
+
+  "Housing and Home service": [
+    "Interior Decoration & Furniture Design",
+    "Home Cleaning & Maintenance Services",
+    "Gardening & landscaping"
+  ],
+
+  "Transport & Automotive": [
+    "Taxi Service",
+    "Car Rental Services",
+    "Auto Repair & Maintenance workshop",
+    "Car Wash & Detailing center",
+    "Electric Vehicle Charging Solution",
+  ],
+};
+
+const categorySelect = document.getElementById("categorySelect");
+const serviceSelect = document.getElementById("serviceSelect");
+
+// Clear all services
+function clearServiceOptions() {
+  serviceSelect.innerHTML = "";
+  const opt = document.createElement("option");
+  opt.value = "";
+  opt.textContent = "-- choose service --";
+  serviceSelect.appendChild(opt);
+}
+
+// Load services based on selected category
+function loadServices(category) {
+  clearServiceOptions();
+
+  if (!servicesByCategory[category]) return;
+
+  servicesByCategory[category].forEach(service => {
+    const option = document.createElement("option");
+    option.value = service;
+    option.textContent = service;
+    serviceSelect.appendChild(option);
+  });
+
+  // Add "Other"
+  const other = document.createElement("option");
+  other.value = "Other";
+  other.textContent = "Other";
+  serviceSelect.appendChild(other);
+}
+
+// When category changes
+categorySelect.addEventListener("change", function () {
+  loadServices(this.value);
+});
+</script>
+        <label>Select Service Delivery location</label>
+        <select id="deliveryLocation">
+          <option value="">Select delivery option</option>
+          <option value="On_site">On Site</option>
+          <option value="Remote">Remote</option>
+          <option value="Home Service">Home Service</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Mobile Service">Mobile Service</option>
+          <option value="Pickup & Drop off">Pickup & Drop off</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <!-- Sample Work Section -->
+        <div class="section">Sample Work</div>
+
+        <label>Sample Work</label>
+        <input type="url" id="sampleWork" placeholder="link" />
+
+        <!-- Contact Information Section -->
+        <div class="section">Contact Information</div>
+
+        <label>Contact</label>
+        <div class="phone-row">
+          <input type="tel" id="phone1" placeholder="Phone.No 1" />
+          <input type="tel" id="phone2" placeholder="Phone.No 2" />
+        </div>
+        <div class="contact-row">
+          <input type="email" id="email" placeholder="Email" />
+          <input type="url" id="googleMapLink" placeholder="Google map link" />
+        </div>
+
+        <!-- Consent Section -->
+        <div class="consent-box">
+          <p>
+            I confirm that the information I have provided in this form is
+            accurate and complete. I give permission for the organization to use
+            this information for internal business processes, service provision,
+            and communication purposes. By clicking the submit confirmation, I
+            acknowledge and accept the above terms and give my consent for my
+            information to be processed.
+          </p>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input
+                type="radio"
+                id="consentYes"
+                name="consent"
+                value="yes"
+                required
+              />
+              <label for="consentYes">Yes</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="consentNo" name="consent" value="no" />
+              <label for="consentNo">No</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Submit</button>
+      </form>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div
+      class="bottom-nav"
+      style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      "
+    >
+      <div
+        class="nav-item"
+        onclick="window.location.href='front page.html'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 5px 15px;
+          border-radius: 8px;
+        "
+      >
+        <img
+          src="../assets/images/home.jpg"
+          alt="home icon"
+          style="width: 24px; height: 24px"
+        />
+        <div style="font-size: 12px; color: #374151; font-weight: 500">
+          Home
+        </div>
+      </div>
+      <div
+        class="nav-item active"
+        onclick="window.location.href='create-company.html'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 5px 15px;
+          border-radius: 8px;
+          background: #f0fdf4;
+        "
+      >
+        <img
+          src="../assets/images/add.jpg"
+          alt="post service icon"
+          style="width: 24px; height: 24px"
+        />
+        <div style="font-size: 12px; color: #059669; font-weight: 600">
+          Post Service
+        </div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='companies-list.html'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 5px 15px;
+          border-radius: 8px;
+        "
+      >
+        <img
+          src="../assets/images/profile.jpg"
+          alt="profile icon"
+          style="width: 24px; height: 24px"
+        />
+        <div style="font-size: 12px; color: #374151; font-weight: 500">
+          Profile
+        </div>
+      </div>
+      <div
+        class="nav-item"
+        onclick="window.location.href='help.html'"
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 5px 15px;
+          border-radius: 8px;
+        "
+      >
+        <img
+          src="../assets/images/help.jpg"
+          alt="help icon"
+          style="width: 24px; height: 24px"
+        />
+        <div style="font-size: 12px; color: #374151; font-weight: 500">
+          Help
+        </div>
+      </div>
+    </div>
+
+    <!-- Load config and auth utilities -->
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+
+    <script>
+      // Protect route - check if user is logged in
+      window.addEventListener("DOMContentLoaded", async () => {
+        const isAuth = await protectRoute();
+        if (!isAuth) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const editId = urlParams.get("edit");
+        const categoryParam = urlParams.get("category");
+
+        // If editing, load company data
+        if (editId) {
+          document.getElementById("pageTitle").textContent = "Edit Company";
+          await loadCompanyForEdit(editId);
+        } else {
+          // Pre-fill category from URL parameter
+          if (categoryParam) {
+            const categorySelect = document.getElementById("serviceCategory");
+            categorySelect.value = decodeURIComponent(categoryParam);
+          }
+        }
+
+        // Logo preview handler
+        const logoFile = document.getElementById("logoFile");
+        const logoPreview = document.getElementById("logoPreview");
+
+        logoFile.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              logoPreview.innerHTML = `<img src="${event.target.result}" alt="Logo preview" />`;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+
+      // Load company data for editing
+      async function loadCompanyForEdit(companyId) {
+        try {
+          const user = await getCurrentUser();
+          if (!user) {
+            window.location.href = "form page.html";
+            return;
+          }
+
+          const { data, error } = await supabase
+            .from("companies")
+            .select("*")
+            .eq("id", companyId)
+            .eq("user_id", user.id)
+            .single();
+
+          if (error) throw error;
+
+          if (!data) {
+            showError(
+              "Company not found or you don't have permission to edit it"
+            );
+            setTimeout(() => {
+              window.location.href = "companies-list.html";
+            }, 2000);
+            return;
+          }
+
+          // Populate form fields
+          document.getElementById("companyName").value =
+            data.company_name || "";
+          document.getElementById("city").value = data.city || "";
+          document.getElementById("subCity").value = data.sub_city || "";
+          document.getElementById("worda").value = data.worda || "";
+          document.getElementById("description").value = data.description || "";
+          document.getElementById("companyProfile").value =
+            data.company_profile || "";
+          document.getElementById("serviceCategory").value =
+            data.service_category || "";
+          document.getElementById("serviceType").value =
+            data.service_type || "";
+          document.getElementById("deliveryLocation").value =
+            data.delivery_location || "";
+          document.getElementById("sampleWork").value = data.sample_work || "";
+          document.getElementById("phone1").value = data.phone_1 || "";
+          document.getElementById("phone2").value = data.phone_2 || "";
+          document.getElementById("email").value = data.email || "";
+          document.getElementById("googleMapLink").value =
+            data.google_map_link || "";
+
+          // Set consent radio button
+          if (data.consent) {
+            document.getElementById("consentYes").checked = true;
+          } else {
+            document.getElementById("consentNo").checked = true;
+          }
+
+          // Display logo if available
+          if (data.logo_url) {
+            const logoPreview = document.getElementById("logoPreview");
+            logoPreview.innerHTML = `<img src="${data.logo_url}" alt="Logo preview" />`;
+            // Store existing logo URL to preserve it if no new logo is uploaded
+            document
+              .getElementById("companyForm")
+              .setAttribute("data-existing-logo", data.logo_url);
+          }
+
+          // Store company ID for update
+          document
+            .getElementById("companyForm")
+            .setAttribute("data-company-id", companyId);
+
+          // Update submit button text
+          document.getElementById("submitBtn").textContent = "Update Company";
+        } catch (error) {
+          showError("Failed to load company data: " + error.message);
+          console.error("Error loading company:", error);
+        }
+      }
+
+      // Form submission handler
+      document
+        .getElementById("companyForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const companyName = document
+            .getElementById("companyName")
+            .value.trim();
+          const city = document.getElementById("city").value.trim();
+          const subCity = document.getElementById("subCity").value.trim();
+          const worda = document.getElementById("worda").value.trim();
+          const description = document
+            .getElementById("description")
+            .value.trim();
+          const companyProfile = document
+            .getElementById("companyProfile")
+            .value.trim();
+          const serviceCategory =
+            document.getElementById("serviceCategory").value;
+          const serviceType = document.getElementById("serviceType").value;
+          const deliveryLocation =
+            document.getElementById("deliveryLocation").value;
+          const sampleWork = document.getElementById("sampleWork").value.trim();
+          const phone1 = document.getElementById("phone1").value.trim();
+          const phone2 = document.getElementById("phone2").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const googleMapLink = document
+            .getElementById("googleMapLink")
+            .value.trim();
+          const consent = document.querySelector(
+            'input[name="consent"]:checked'
+          )?.value;
+          const logoFile = document.getElementById("logoFile").files[0];
+          const submitBtn = document.getElementById("submitBtn");
+
+          // Validation
+          if (!companyName || !description || !serviceCategory) {
+            showError("Please fill in all required fields");
+            return;
+          }
+
+          if (consent !== "yes") {
+            showError("You must consent to the terms to submit");
+            return;
+          }
+
+          // Get current user
+          const user = await getCurrentUser();
+          if (!user) {
+            showError("You must be logged in to create a company");
+            window.location.href = "form page.html";
+            return;
+          }
+
+          setLoading(submitBtn, true);
+
+          try {
+            // Handle logo upload if provided
+            let logoUrl = null;
+            if (logoFile) {
+              try {
+                // Upload to Supabase Storage
+                const fileExt = logoFile.name.split(".").pop();
+                const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+                console.log("Attempting to upload logo to storage...");
+                const { data: uploadData, error: uploadError } =
+                  await supabase.storage
+                    .from("company-logos")
+                    .upload(fileName, logoFile, {
+                      cacheControl: "3600",
+                      upsert: false,
+                    });
+
+                if (uploadError) {
+                  console.error("Logo upload error:", uploadError);
+                  // Show error but continue - user can still create company without logo
+                  showError(
+                    `Logo upload failed: ${uploadError.message}. Company will be created without logo.`
+                  );
+                  // Set logoUrl to null so it doesn't save an invalid URL
+                  logoUrl = null;
+                } else {
+                  // Get public URL
+                  const {
+                    data: { publicUrl },
+                  } = supabase.storage
+                    .from("company-logos")
+                    .getPublicUrl(fileName);
+                  logoUrl = publicUrl;
+                  console.log("Logo uploaded successfully:", logoUrl);
+                }
+              } catch (storageError) {
+                console.error("Storage error:", storageError);
+                showError(
+                  `Storage error: ${storageError.message}. Company will be created without logo.`
+                );
+                logoUrl = null;
+              }
+            }
+
+            // Combine address fields
+            const address = [city, subCity, worda].filter(Boolean).join(", ");
+
+            // Combine phone numbers
+            const phones = [phone1, phone2].filter(Boolean);
+
+            // Check if editing or creating
+            const companyId = document
+              .getElementById("companyForm")
+              .getAttribute("data-company-id");
+
+            const companyData = {
+              company_name: companyName,
+              address: address || null,
+              city: city || null,
+              sub_city: subCity || null,
+              worda: worda || null,
+              description: description,
+              company_profile: companyProfile || null,
+              service_category: serviceCategory,
+              service_type: serviceType || null,
+              delivery_location: deliveryLocation || null,
+              sample_work: sampleWork || null,
+              phone_1: phone1 || null,
+              phone_2: phone2 || null,
+              email: email || null,
+              google_map_link: googleMapLink || null,
+              consent: consent === "yes",
+            };
+
+            // Handle logo URL
+            if (companyId) {
+              // When editing: use new logo if uploaded, otherwise keep existing
+              if (logoUrl) {
+                companyData.logo_url = logoUrl;
+              } else {
+                // Preserve existing logo URL if no new logo was uploaded
+                const existingLogo = document
+                  .getElementById("companyForm")
+                  .getAttribute("data-existing-logo");
+                if (existingLogo) {
+                  companyData.logo_url = existingLogo;
+                }
+              }
+            } else {
+              // When creating: set logo_url if provided
+              companyData.logo_url = logoUrl || null;
+            }
+
+            let result;
+            if (companyId) {
+              // Update existing company
+              result = await supabase
+                .from("companies")
+                .update(companyData)
+                .eq("id", companyId)
+                .eq("user_id", user.id)
+                .select();
+            } else {
+              // Create new company
+              companyData.user_id = user.id;
+              companyData.status = "pending";
+              result = await supabase
+                .from("companies")
+                .insert([companyData])
+                .select();
+            }
+
+            if (result.error) throw result.error;
+
+            showSuccess(
+              companyId
+                ? "Company updated successfully!"
+                : "Company created successfully!"
+            );
+            setTimeout(() => {
+              window.location.href = "companies-list.html";
+            }, 1500);
+          } catch (error) {
+            showError(
+              error.message || "Failed to create company. Please try again."
+            );
+            setLoading(submitBtn, false);
+          }
+        });
+    </script>
+  </body>
+</html>

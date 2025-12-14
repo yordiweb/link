@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="am">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Company Card</title>
+
+<style>
+    
+    body{
+        margin:0;
+        background:#f3f3f3;
+        font-family:Arial, sans-serif;
+        display:flex;
+        justify-content:center;
+        padding:40px 10px;
+    }
+
+    .card{
+        width:100%;
+        max-width:600px;
+        background:white;
+        border-radius:20px;
+        padding:20px;
+        box-shadow:0 6px 18px rgba(0,0,0,0.12);
+        border:1px solid #d8d8d8;
+        transition:0.3s;
+        overflow:hidden;
+        position:relative;
+    }
+
+    .header{
+        display:flex;
+        gap:18px;
+        align-items:center;
+    }
+
+    .logo{
+        width:90px;
+        height:90px;
+        background:#eee;
+        border-radius:16px;
+        overflow:hidden;
+        border:1px solid #ddd;
+    }
+
+    .logo img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+    }
+
+    .company-name{
+        font-size:20px;
+        font-weight:bold;
+        color:#1c2f2f;
+    }
+
+    .short-desc{
+        color:#5e6b6b;
+        font-size:14px;
+        margin-top:8px;
+        max-height:45px;
+        overflow:hidden;
+        transition:0.3s;
+    }
+
+    /* expanded area */
+    .extra{
+        margin-top:15px;
+        display:none;
+        opacity:0;
+        transition:0.3s;
+    }
+
+    .extra.show{
+        display:block;
+        opacity:1;
+    }
+
+    .view-detail{
+        margin-top:10px;
+        background:#1b2c2c;
+        color:white;
+        padding:8px 18px;
+        border-radius:20px;
+        display:inline-block;
+        font-size:14px;
+        font-weight:bold;
+    }
+
+    .more-btn{
+        margin-top:15px;
+        background:#fff;
+        border:1px solid #aaa;
+        padding:8px 16px;
+        border-radius:14px;
+        cursor:pointer;
+        font-weight:bold;
+        color:#1c2f2f;
+        box-shadow:0 3px 8px rgba(0,0,0,0.12);
+    }
+
+    .nav-bar{
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        background:white;
+        padding:15px 20px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        z-index:1000;
+        display:flex;
+        gap:20px;
+        align-items:center;
+        flex-wrap:wrap;
+    }
+
+    .nav-bar a{
+        color:#1c2f2f;
+        text-decoration:none;
+        font-weight:600;
+        padding:8px 12px;
+        border-radius:8px;
+        transition:background 0.2s;
+    }
+
+    .nav-bar a:hover{
+        background:#f3f3f3;
+    }
+
+    body{
+        padding-top:70px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="nav-bar">
+    <a href="front page.html">Home</a>
+    <a href="form page.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="create-company.html">Create Company</a>
+    <a href="companies-list.html">My Companies</a>
+</div>
+
+<div class="card" id="card">
+
+    <div class="header">
+        <div class="logo">
+            <img src="../assets/images/fba500c6e99adee23edf4e5e7ad31722.jpg" alt="">
+        </div>
+
+        <div>
+            <div class="company-name">RETOUCH ADVERTISING TRADING P.L.C</div>
+    </div>
+
+    <!-- hidden area -->
+    <div class="extra" id="extra">
+        <div style="font-size:14px; color:#444; line-height:1.5;">
+            ይህ ድርጅት ሙሉ የማስታወቂያ እና የታሸገ እቃ አገልግሎት ይሰጣል።  
+            ከውጭ ማስታወቂያ ጀምሮ እስከ design, printing, branding በሙሉ ይተካል።
+        </div>
+
+        <div class="view-detail">View Detail</div>
+    </div>
+
+    <button class="more-btn" id="toggleBtn">more ▾</button>
+
+</div>
+
+<script>
+    const btn = document.getElementById("toggleBtn");
+    const extra = document.getElementById("extra");
+    const desc = document.getElementById("shortDesc");
+
+    let open = false;
+
+    btn.onclick = () => {
+        open = !open;
+
+        if(open){
+            extra.classList.add("show");
+            desc.style.maxHeight = "300px";
+            btn.innerHTML = "less ▴";
+        } else {
+            extra.classList.remove("show");
+            desc.style.maxHeight = "45px";
+            btn.innerHTML = "more ▾";
+        }
+    };
+</script>
+
+</body>
+</html>

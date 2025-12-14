@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Create Request</title>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f3f3f3;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 32px;
+        margin-bottom: 8px;
+        font-weight: 800;
+        color: #1c2f2f;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 25px;
+        color: #6b7280;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #1c2f2f;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 18px;
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: #0f1724;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .btn-submit:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .back-link:hover {
+        color: #0f1724;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <a href="requests-list.html" class="back-link">← Back to Requests</a>
+
+      <h1>Create New Request</h1>
+      <p>Fill out the form below to create a new service request.</p>
+
+      <form id="requestForm">
+        <label>Title *</label>
+        <input
+          type="text"
+          id="title"
+          placeholder="Enter request title"
+          required
+        />
+
+        <label>Category *</label>
+        <select id="category" required>
+          <option value="">Select a category</option>
+          <option value="Advertising & Marketing Service">
+            Advertising & Marketing Service
+          </option>
+          <option value="Information Technology (IT)">
+            Information Technology (IT)
+          </option>
+          <option value="Financial & Accounting Service">
+            Financial & Accounting Service
+          </option>
+          <option value="Logistics Transport Service">
+            Logistics Transport Service
+          </option>
+          <option value="Education & Training">Education & Training</option>
+          <option value="Health & Wellness Service">
+            Health & Wellness Service
+          </option>
+          <option value="Construction">Construction</option>
+          <option value="Tourism & Hospitality">Tourism & Hospitality</option>
+          <option value="Creative & Media Service">
+            Creative & Media Service
+          </option>
+          <option value="Fashion & Lifestyle">Fashion & Lifestyle</option>
+          <option value="Food & Beverage Service">
+            Food & Beverage Service
+          </option>
+          <option value="Housing & Home Service">Housing & Home Service</option>
+          <option value="Transport and Automation">
+            Transport and Automation
+          </option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Description *</label>
+        <textarea
+          id="description"
+          placeholder="Describe your request in detail..."
+          required
+        ></textarea>
+
+        <label>Contact Phone</label>
+        <input
+          type="tel"
+          id="phone"
+          placeholder="Enter your phone number (e.g., +2519 989 800 099)"
+        />
+
+        <label>Contact Email</label>
+        <input type="email" id="email" placeholder="Enter your email address" />
+
+        <label>Delivery Location</label>
+        <select id="deliveryLocation">
+          <option value="">Select delivery option</option>
+          <option value="On_site">On Site</option>
+          <option value="Remote">Remote</option>
+          <option value="Both">Both</option>
+        </select>
+
+        <label>Company Profile Link (Optional)</label>
+        <input
+          type="url"
+          id="companyProfile"
+          placeholder="https://t.me/c/..."
+        />
+
+        <label>Sample Work Link (Optional)</label>
+        <input type="url" id="sampleWork" placeholder="https://t.me/c/..." />
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Create Request
+        </button>
+      </form>
+    </div>
+
+    <!-- Load config and auth utilities -->
+    <script src="../js/config.js"></script>
+    <script src="../js/auth.js"></script>
+
+    <script>
+      // Protect route - check if user is logged in
+      window.addEventListener("DOMContentLoaded", async () => {
+        const isAuth = await protectRoute();
+        if (!isAuth) return;
+
+        // Pre-fill category from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get("category");
+        if (categoryParam) {
+          const categorySelect = document.getElementById("category");
+          categorySelect.value = decodeURIComponent(categoryParam);
+        }
+      });
+
+      // Form submission handler
+      document
+        .getElementById("requestForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const title = document.getElementById("title").value.trim();
+          const category = document.getElementById("category").value;
+          const description = document
+            .getElementById("description")
+            .value.trim();
+          const phone = document.getElementById("phone").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const deliveryLocation =
+            document.getElementById("deliveryLocation").value;
+          const companyProfile = document
+            .getElementById("companyProfile")
+            .value.trim();
+          const sampleWork = document.getElementById("sampleWork").value.trim();
+          const submitBtn = document.getElementById("submitBtn");
+
+          if (!title || !category || !description) {
+            showError("Please fill in all required fields");
+            return;
+          }
+
+          // Get current user
+          const user = await getCurrentUser();
+          if (!user) {
+            showError("You must be logged in to create a request");
+            window.location.href = "form page.html";
+            return;
+          }
+
+          setLoading(submitBtn, true);
+
+          try {
+            const { data, error } = await supabase
+              .from("requests")
+              .insert([
+                {
+                  user_id: user.id,
+                  title: title,
+                  description: description,
+                  category: category,
+                  status: "pending",
+                  phone: phone || null,
+                  email: email || null,
+                  delivery_location: deliveryLocation || null,
+                  company_profile: companyProfile || null,
+                  sample_work: sampleWork || null,
+                },
+              ])
+              .select();
+
+            if (error) throw error;
+
+            showSuccess("Request created successfully!");
+            setTimeout(() => {
+              window.location.href = "requests-list.html";
+            }, 1500);
+          } catch (error) {
+            showError(
+              error.message || "Failed to create request. Please try again."
+            );
+            setLoading(submitBtn, false);
+          }
+        });
+    </script>
+  </body>
+</html>
